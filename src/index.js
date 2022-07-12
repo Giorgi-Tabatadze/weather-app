@@ -13,11 +13,7 @@ submit.addEventListener("click", async () => {
     currentWeather,
     weatherInfo.forecast.list
   );
-  const dailyForecast = filter.dailyForecast(
-    currentWeather,
-    weatherInfo.forecast.list
-  );
+
   console.log(currentWeather);
   console.log(hourlyForecast);
-  console.log(dailyForecast);
 });

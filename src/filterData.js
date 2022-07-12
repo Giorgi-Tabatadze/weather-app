@@ -8,6 +8,7 @@ const filter = (() => {
     const currentWeatherData = {
       locationName: weatherInfo.rightNow.name,
       temperature: weatherInfo.rightNow.main.temp,
+      weather: weatherInfo.rightNow.weather[0].main,
       description: weatherInfo.rightNow.weather[0].description,
       currentTime: toLocationTime(
         weatherInfo.rightNow.dt,
@@ -35,55 +36,65 @@ const filter = (() => {
         currentWeather.timezone,
         "yyyy-MM-dd"
       );
+      let forecastTime = null;
       if (currentDate === forecastDate) {
-        const filteredHour = {
-          time: `${toLocationTime(
-            hourlyData.dt,
-            currentWeather.timezone,
-            "HH"
-          )}:00`,
-          temperature: hourlyData.main.temp,
-          description: hourlyData.weather[0].description,
-        };
-
-        hourlyForecastData.push(filteredHour);
+        forecastTime = `Today ${toLocationTime(
+          hourlyData.dt,
+          currentWeather.timezone,
+          "HH"
+        )}:00`;
+      } else {
+        forecastTime = `${toLocationTime(
+          hourlyData.dt,
+          currentWeather.timezone,
+          "EEEE HH:mm"
+        )}`;
       }
+
+      const filteredHour = {
+        time: forecastTime,
+        temperature: hourlyData.main.temp,
+        weather: hourlyData.weather[0].main,
+        description: hourlyData.weather[0].description,
+      };
+
+      hourlyForecastData.push(filteredHour);
     });
 
     return hourlyForecastData;
   };
 
-  const dailyForecast = (currentWeather, weatherInfoList) => {
-    const dailyForecastData = [];
-    const currentDate = toLocationTime(
-      currentWeather.currentTimeUnix,
-      currentWeather.timezone,
-      "yyyy-MM-dd"
-    );
-    weatherInfoList.forEach((hourlyData) => {
-      const forecastDate = toLocationTime(
-        hourlyData.dt,
-        currentWeather.timezone,
-        "yyyy-MM-dd"
-      );
-      if (currentDate !== forecastDate) {
-        const filteredDay = {
-          dayOftheWeek: toLocationTime(
-            hourlyData.dt,
-            currentWeather.timezone,
-            "EEEE"
-          ),
-          temperature: hourlyData.main.temp,
-          description: hourlyData.weather[0].description,
-        };
-        dailyForecastData.push(filteredDay);
-      }
-    });
+  // const dailyForecast = (currentWeather, weatherInfoList) => {
+  //   const dailyForecastData = [];
+  //   const currentDate = toLocationTime(
+  //     currentWeather.currentTimeUnix,
+  //     currentWeather.timezone,
+  //     "yyyy-MM-dd"
+  //   );
+  //   weatherInfoList.forEach((hourlyData) => {
+  //     const forecastDate = toLocationTime(
+  //       hourlyData.dt,
+  //       currentWeather.timezone,
+  //       "yyyy-MM-dd"
+  //     );
+  //     if (currentDate !== forecastDate) {
+  //       const filteredDay = {
+  //         dayOftheWeek: toLocationTime(
+  //           hourlyData.dt,
+  //           currentWeather.timezone,
+  //           "EEEE"
+  //         ),
+  //         temperature: hourlyData.main.temp,
+  //         description: hourlyData.weather[0].description,
+  //       };
+  //       dailyForecastData.push(filteredDay);
+  //     }
+  //   });
 
-    return dailyForecastData;
-  };
+  //   return dailyForecastData;
+  // };
 
-  return { rightNow, hourlyForecast, dailyForecast };
+  return { rightNow, hourlyForecast };
 })();
 
 export default filter;
