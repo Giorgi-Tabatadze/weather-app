@@ -45,6 +45,7 @@ const filter = (() => {
           temperature: hourlyData.main.temp,
           description: hourlyData.weather[0].description,
         };
+
         hourlyForecastData.push(filteredHour);
       }
     });
