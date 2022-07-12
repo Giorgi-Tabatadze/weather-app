@@ -7,9 +7,24 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <label for="city">City</label>
-    <input type="text" name="city" id="city">
-    <button>Submit
-    </button>
+    <header>
+      <label for="city">Please Enter City:</label>
+      <input type="text" name="city" id="city">
+      <button>Go</button>
+      <img src="" alt="">
+    </header>
+
+    <main>
+      <div id="current">
+
+      </div>
+      <div id="forecast">
+        <h2>3 Hour forecast</h2>
+        <div class="forecasts"></div>
+      </div>
+    </main>
+
+    <footer></footer>
+
   </body>
 </html>

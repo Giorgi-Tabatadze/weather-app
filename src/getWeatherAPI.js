@@ -12,7 +12,7 @@ async function getWeatherInfo(city) {
     const weatherData = { rightNow, forecast };
     return weatherData;
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 }
 

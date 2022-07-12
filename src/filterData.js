@@ -1,9 +1,6 @@
-import format from "date-fns/format";
 import toLocationTime from "./util/timezone";
 
 const filter = (() => {
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions();
-
   const rightNow = (weatherInfo) => {
     const currentWeatherData = {
       locationName: weatherInfo.rightNow.name,
