@@ -18,10 +18,21 @@ import n11 from "./img/icons/night/11n@2x.png";
 import n13 from "./img/icons/night/13n@2x.png";
 import n50 from "./img/icons/night/50n@2x.png";
 
+import dclear from "./img/backgrounds/day/clearsky.jpg";
+import dfewclouds from "./img/backgrounds/day/fewclouds.jpg";
+import nclear from "./img/backgrounds/night/clearsky.jpg";
+import nfewclouds from "./img/backgrounds/night/fewclouds.jpg";
+
+import clouds from "./img/backgrounds/clouds.jpg";
+import mist from "./img/backgrounds/mist.jpg";
+import rain from "./img/backgrounds/rain.jpg";
+import thunderstorm from "./img/backgrounds/thunderstorm.jpg";
+import snow from "./img/backgrounds/snow.jpg";
+
 // https://openweathermap.org/weather-conditions
 
-const setIcon = (() => {
-  const source = (image, hourlyForecast) => {
+const setImage = (() => {
+  const icon = (image, hourlyForecast) => {
     const time = hourlyForecast.time.split(" ");
 
     // daytime
@@ -30,7 +41,7 @@ const setIcon = (() => {
         case "clear sky":
           image.src = d01;
           break;
-        case "few clouds" || "overcast clouds":
+        case "few clouds":
           image.src = d02;
           break;
         case "scattered clouds":
@@ -56,7 +67,7 @@ const setIcon = (() => {
           break;
         default:
           if (hourlyForecast.description.includes("clouds")) {
-            image.src = d02;
+            image.src = d03;
           } else if (hourlyForecast.description.includes("drizzle")) {
             image.src = d09;
           } else if (hourlyForecast.description.includes("thunderstorm")) {
@@ -65,14 +76,14 @@ const setIcon = (() => {
             image.src = d10;
           } else if (hourlyForecast.description.includes("snow")) {
             image.src = d13;
-          } else console.log(`Couldnt set icon for ${hourlyForecast.time}`);
+          } else image.src = d50;
       }
     } else {
       switch (hourlyForecast.description) {
         case "clear sky":
           image.src = n01;
           break;
-        case "few clouds" || "overcast clouds":
+        case "few clouds":
           image.src = n02;
           break;
         case "scattered clouds":
@@ -98,7 +109,7 @@ const setIcon = (() => {
           break;
         default:
           if (hourlyForecast.description.includes("clouds")) {
-            image.src = n02;
+            image.src = n03;
           } else if (hourlyForecast.description.includes("drizzle")) {
             image.src = n09;
           } else if (hourlyForecast.description.includes("thunderstorm")) {
@@ -107,11 +118,48 @@ const setIcon = (() => {
             image.src = n10;
           } else if (hourlyForecast.description.includes("snow")) {
             image.src = n13;
-          } else console.log(`Couldnt set icon for ${hourlyForecast.time}`);
+          } else image.src = n50;
       }
     }
   };
-  return { source };
+
+  const background = (currentWeatherData) => {
+    const time = currentWeatherData.currentTime.split(" ");
+    const body = document.querySelector("body");
+    const daytime = time[1] >= "07:00:00" && time[1] < "22:00:00";
+    let imageToSet = null;
+
+    if (currentWeatherData.weather === "Clear") {
+      if (daytime) {
+        imageToSet = dclear;
+      } else imageToSet = nclear;
+    } else if (currentWeatherData.weather === "Clouds") {
+      if (
+        currentWeatherData.description === "few clouds" ||
+        currentWeatherData.description === "scattered clouds"
+      ) {
+        if (daytime) {
+          imageToSet = dfewclouds;
+        } else imageToSet = nfewclouds;
+      } else {
+        imageToSet = clouds;
+      }
+    } else if (
+      currentWeatherData.weather === "Rain" ||
+      currentWeatherData.weather === "Drizzle"
+    ) {
+      imageToSet = rain;
+    } else if (currentWeatherData.weather === "Thunderstorm") {
+      imageToSet = thunderstorm;
+    } else if (currentWeatherData.weather === "Snow") {
+      imageToSet = snow;
+    } else {
+      imageToSet = mist;
+    }
+    body.style.backgroundImage = `url(${imageToSet})`;
+  };
+
+  return { icon, background };
 })();
 
-export default setIcon;
+export default setImage;

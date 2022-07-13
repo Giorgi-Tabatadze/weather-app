@@ -1,5 +1,5 @@
 import removeAllChildNodes from "./util/removeallchildnodes";
-import setIcon from "./setIcon";
+import setImage from "./setIcon";
 
 const display = (() => {
   const currentContainer = document.getElementById("current");
@@ -11,6 +11,8 @@ const display = (() => {
     const cityName = document.createElement("h3");
     cityName.innerText = weatherInfo.locationName;
     currentContainer.appendChild(cityName);
+
+    setImage.background(weatherInfo);
 
     const temperature = document.createElement("h3");
     temperature.innerText = `${Math.ceil(weatherInfo.temperature)}°`;
@@ -42,7 +44,7 @@ const display = (() => {
       hourDiv.appendChild(hour);
 
       const weatherIcon = document.createElement("img");
-      setIcon.source(weatherIcon, hourlyForecast);
+      setImage.icon(weatherIcon, hourlyForecast);
       hourDiv.appendChild(weatherIcon);
 
       const weatherDescription = document.createElement("p");

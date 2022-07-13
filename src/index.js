@@ -2,11 +2,11 @@ import "./styles.css";
 import getWeatherInfo from "./getWeatherAPI";
 import filter from "./filterData";
 import display from "./displayDom";
-import setIcon from "./setIcon";
 
 const input = document.querySelector("input#city");
 const submit = document.querySelector("button");
 const image = document.querySelector("img");
+const body = document.querySelector("body");
 
 submit.addEventListener("click", async () => {
   const weatherInfo = await getWeatherInfo(input.value);
