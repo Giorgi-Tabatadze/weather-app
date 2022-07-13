@@ -1,4 +1,5 @@
 import removeAllChildNodes from "./util/removeallchildnodes";
+import setIcon from "./setIcon";
 
 const display = (() => {
   const currentContainer = document.getElementById("current");
@@ -40,9 +41,13 @@ const display = (() => {
       hour.innerText = time[1];
       hourDiv.appendChild(hour);
 
-      const weather = document.createElement("p");
-      weather.innerText = hourlyForecast.weather;
-      hourDiv.appendChild(weather);
+      const weatherIcon = document.createElement("img");
+      setIcon.source(weatherIcon, hourlyForecast);
+      hourDiv.appendChild(weatherIcon);
+
+      const weatherDescription = document.createElement("p");
+      weatherDescription.innerText = hourlyForecast.description;
+      hourDiv.appendChild(weatherDescription);
 
       const temperature = document.createElement("h3");
       temperature.innerText = `${Math.ceil(hourlyForecast.temperature)}°`;

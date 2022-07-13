@@ -2,6 +2,7 @@ import "./styles.css";
 import getWeatherInfo from "./getWeatherAPI";
 import filter from "./filterData";
 import display from "./displayDom";
+import setIcon from "./setIcon";
 
 const input = document.querySelector("input#city");
 const submit = document.querySelector("button");
