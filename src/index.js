@@ -8,8 +8,8 @@ const submit = document.querySelector("button");
 const image = document.querySelector("img");
 const body = document.querySelector("body");
 
-submit.addEventListener("click", async () => {
-  const weatherInfo = await getWeatherInfo(input.value);
+async function weatherForecast(city) {
+  const weatherInfo = await getWeatherInfo(city);
   console.log(weatherInfo);
   const currentWeather = filter.rightNow(weatherInfo);
   const hourlyForecast = filter.hourlyForecast(
@@ -22,4 +22,10 @@ submit.addEventListener("click", async () => {
 
   console.log(currentWeather);
   console.log(hourlyForecast);
+}
+
+submit.addEventListener("click", async () => {
+  weatherForecast(input.value);
 });
+
+weatherForecast("london");
