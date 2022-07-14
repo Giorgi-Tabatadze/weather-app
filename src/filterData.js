@@ -2,21 +2,24 @@ import toLocationTime from "./util/timezone";
 
 const filter = (() => {
   const rightNow = (weatherInfo) => {
-    const currentWeatherData = {
-      locationName: weatherInfo.rightNow.name,
-      temperature: weatherInfo.rightNow.main.temp,
-      weather: weatherInfo.rightNow.weather[0].main,
-      description: weatherInfo.rightNow.weather[0].description,
-      currentTime: toLocationTime(
-        weatherInfo.rightNow.dt,
-        weatherInfo.rightNow.timezone,
-        "yyyy-MM-dd HH:mm:ss"
-      ),
-      currentTimeUnix: weatherInfo.rightNow.dt,
-      timezone: weatherInfo.rightNow.timezone,
-    };
-
-    return currentWeatherData;
+    try {
+      const currentWeatherData = {
+        locationName: weatherInfo.rightNow.name,
+        temperature: weatherInfo.rightNow.main.temp,
+        weather: weatherInfo.rightNow.weather[0].main,
+        description: weatherInfo.rightNow.weather[0].description,
+        currentTime: toLocationTime(
+          weatherInfo.rightNow.dt,
+          weatherInfo.rightNow.timezone,
+          "yyyy-MM-dd HH:mm:ss"
+        ),
+        currentTimeUnix: weatherInfo.rightNow.dt,
+        timezone: weatherInfo.rightNow.timezone,
+      };
+      return currentWeatherData;
+    } catch (error) {
+      alert("Could not Find Requested City");
+    }
   };
 
   const hourlyForecast = (currentWeather, weatherInfoList) => {
